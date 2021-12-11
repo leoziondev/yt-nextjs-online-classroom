@@ -2,6 +2,8 @@
 
 [Playlist Tutorial](https://www.youtube.com/playlist?list=PLbV6TI03ZWYVxGBKyYJf_Qy6d4saMbCq3) by Daniel Berg
 
+[Sendgrid tutorial](https://www.youtube.com/watch?v=o_wZIVmWteQ) 30:00 min
+
 ## Next.js + Tailwind CSS Example
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
