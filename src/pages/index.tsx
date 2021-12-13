@@ -1,16 +1,18 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
+import Layout from '../components/Layout'
 
 const HomePage: NextPage = () => {
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <Layout>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head>      
 
-      <h1 className="text-5xl font-bold text-gray-800">Next and Tailwind</h1>
-    </div>
+      <h1 className="text-5xl font-bold text-gray-800">Home Page</h1>
+    </Layout>
   )
 }
 
