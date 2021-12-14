@@ -1,24 +1,24 @@
-import { MongoClient, ObjectId } from "mongodb"
+import { MongoClient } from "mongodb"
 import { NextApiRequest, NextApiResponse } from "next"
-import { connectDatabase, insertDocument, getDocument } from '../../../utils/database';
+import { connectDatabase, insertDocument, getDocument } from '../../../../utils/database';
 
 interface ResponseType {
   message: string;
 }
 
 interface SuccessResponseType {
-    _id: string,
-    name: string,
-    email: string,
-    cellphone: string,
-    teacher: boolean,
-    coins: 1,
-    courses: string[],
-    available_hours: object,
-    available_locations: string[],
-    reviews: object[],
-    appointments: object[]
-  }
+  _id: string;
+  name: string;
+  email: string;
+  cellphone: string;
+  teacher: boolean;
+  coins: number;
+  courses: string[];
+  available_hours: Record<string, number[]>;
+  available_locations: string[];
+  reviews: Record<string, unknown>[];
+  appointments: { date: string }[];
+}
 
 export default async (
   req: NextApiRequest,
@@ -27,10 +27,10 @@ export default async (
 
   if ( req.method === 'GET' ) {
     let client: MongoClient
-    const {id} = req.body
+    const {email} = req.query
 
-    if (!id) {
-      res.status(422).json({message: 'Missing Teacher ID on request body'})
+    if (!email) {
+      res.status(422).json({message: 'Missing e-mail on request body'})
       return
     }
           
@@ -43,11 +43,11 @@ export default async (
 
     try {
         const response = await getDocument(client, 'users', {
-          _id: new ObjectId(id)
+          email
         })
 
         if (!response) {
-          res.status(422).json({message: 'Teacher ID not found'})
+          res.status(422).json({message: 'User with this email not found'})
         }
 
         res.status(200).json(response)

@@ -29,7 +29,7 @@ export default async (
 
     try {
         const response = await getCourses(client, 'users', {
-          courses
+          courses: { $in: [new RegExp(`^${courses}`, 'i')] }
         })
 
         if (response.length === 0) {

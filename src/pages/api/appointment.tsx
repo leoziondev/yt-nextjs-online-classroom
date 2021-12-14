@@ -7,15 +7,29 @@ interface ResponseType {
   message: string;
 }
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  cellphone: string;
+  teacher: boolean;
+  coins: number;
+  courses: string[];
+  available_hours: Record<string, number[]>;
+  available_locations: string[];
+  reviews: Record<string, unknown>[];
+  appointments: { date: string }[];
+}
+
 interface SuccessResponseType {
-    date: string,
-    teacher_name: string,
-    teacher_id: string,
-    student_name: string,
-    student_id: string,
-    course: string,
-    location: string,
-    appointment_link: string
+    date: string;
+    teacher_name: string;
+    teacher_id: string;
+    student_name: string;
+    student_id: string;
+    course: string;
+    location: string;
+    appointment_link: string;
 }
 
 export default async (
@@ -32,7 +46,25 @@ export default async (
     }
 
     let client: MongoClient
-    const { date, teacher_name, teacher_id, student_name, student_id, course, location, appointment_link } = req.body
+    const { 
+      date,
+      teacher_name,
+      teacher_id,
+      student_name,
+      student_id,
+      course,
+      location,
+      appointment_link 
+    }: {
+      date: string;
+      teacher_name: string;
+      teacher_id: string;
+      student_name: string;
+      student_id: string;
+      course: string;
+      location: string;
+      appointment_link: string;
+    } = req.body
 
     if (!date || !teacher_name || !teacher_id || !student_name || !student_id || !course || !location) {
       res.status(422).json({message: 'Missing Appointment parameter on request body'})
@@ -81,13 +113,15 @@ export default async (
         await insertAppointement(client, 'users', {
             _id: new ObjectId(teacher_id)
         },{
-            $push: {appointments: appointment}
+            $push: {appointments: appointment},
+            $inc: {coins: 1}
         })
 
         await insertAppointement(client, 'users', {
             _id: new ObjectId(student_id)
         },{
-            $push: {appointments: appointment}
+            $push: {appointments: appointment},
+            $inc: {coins: -1}
         })
 
         res.status(200).json(appointment)
