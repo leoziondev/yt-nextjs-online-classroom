@@ -13,3 +13,19 @@ export const insertDocument = async (client: { db: (arg0: string) => any }, coll
 
     return result
 }
+
+export const getDocument = async (client: { db: (arg0: string) => any }, collection: any, document: any) => {
+    const db = client.db('teach-class')
+
+    const result = await db.collection(collection).findOne(document)
+
+    return result
+}
+
+export const getCourses = async (client: { db: (arg0: string) => any }, collection: any, document: any) => {
+    const db = client.db('teach-class')
+
+    const result = await db.collection(collection).find(document).toArray()
+
+    return result
+}
