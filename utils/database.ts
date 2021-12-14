@@ -29,3 +29,11 @@ export const getCourses = async (client: { db: (arg0: string) => any }, collecti
 
     return result
 }
+
+export const insertAppointement = async (client: { db: (arg0: string) => any }, collection: any, document: any, data: any) => {
+    const db = client.db('teach-class')
+
+    const result = await db.collection(collection).updateOne(document, data)
+
+    return result
+}
