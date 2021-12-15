@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react"
+import Link from 'next/link'
 
 const Nav = () => {
     const { data: session, status } = useSession()
@@ -8,7 +9,17 @@ const Nav = () => {
             <div className="flex justify-between container mx-auto px-2 sm:px-0">
                 <span className="font-bold uppercase text-gray-700">Logo</span>
                 <nav>
-                    <ul>
+                    <ul className="flex space-x-4">
+                        <li>
+                            <Link href="/profile">
+                                <a>Profile</a>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/search">
+                                <a>Search</a>
+                            </Link>
+                        </li>
                         {!session && (
                             <li>                    
                                 <button 
