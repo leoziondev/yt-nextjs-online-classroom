@@ -14,6 +14,8 @@ It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-
 
 - [Auth0](https://auth0.com/pt)
 - [Next Auth](https://next-auth.js.org/)
+- [SWR](https://swr.vercel.app/)
+- [Axios](https://axios-http.com/)
 
 ## Preview
 
