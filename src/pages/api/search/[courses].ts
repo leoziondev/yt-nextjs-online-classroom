@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb"
 import { NextApiRequest, NextApiResponse } from "next"
-import { connectDatabase, getCourses } from '../../../utils/database';
+import { connectDatabase, getCourses } from '../../../../utils/database';
 
 interface ResponseType {
   message: string;
@@ -13,7 +13,7 @@ export default async (
 
   if ( req.method === 'GET' ) {
     let client: MongoClient
-    const {courses} = req.body
+    const courses = req.query.courses as string
 
     if (!courses) {
       res.status(422).json({message: 'Missing Course Name on request body'})
@@ -48,4 +48,3 @@ export default async (
   }
 
 }
-
