@@ -6,6 +6,14 @@ interface ResponseType {
   message: string;
 }
 
+interface IAvailableHours {
+  monday: number[];
+  tuesday: number[];
+  wednesday: number[];
+  thursday: number[];
+  friday: number[];
+}
+
 interface SuccessResponseType {
   _id: string;
   name: string;
@@ -14,7 +22,7 @@ interface SuccessResponseType {
   teacher: boolean;
   coins: number;
   courses: string[];
-  available_hours: Record<string, number[]>;
+  available_hours: IAvailableHours;
   available_locations: string[];
   reviews: Record<string, unknown>[];
   appointments: { date: string }[];
@@ -26,7 +34,39 @@ export default async (
 ): Promise<void> => {
 
   if (req.method === 'POST') {
-    const { name, email, cellphone, teacher, courses, available_hours, available_locations } = req.body
+    const {
+      name,
+      email,
+      cellphone,
+      teacher,
+      courses,
+      available_hours,
+      available_locations 
+    }: {
+      name: string;
+      email: string;
+      cellphone: string;
+      teacher: boolean;
+      courses: string[];
+      available_hours: IAvailableHours;
+      available_locations: string[];
+    } = req.body
+
+    // Check if available hours is between 7:00 and 20:00    
+    let invalidHour = false
+    for(const dayOfTheWeek in available_hours) {
+      available_hours[dayOfTheWeek].forEach((hour) => {
+        if (hour < 7 || hour > 20) {
+          invalidHour = true
+          return
+        }
+      })
+    }
+
+    if (invalidHour) {
+      res.status(422).json({ message: 'You cannot teach between 20:00  and 7:00' })
+      return
+    }
 
     if (!teacher) {
       if (!name || !email ||!email.includes('@') || !cellphone) {
@@ -42,7 +82,7 @@ export default async (
 
     let client: MongoClient
           
-      try {
+    try {
         client = await connectDatabase()
     } catch (error) {
         res.status(500).json({ message: 'Connecting to the database failed!' })
