@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    .switch-input:checked ~ .dot {
+        @apply transform translate-x-full bg-indigo-500
+    }
+}
