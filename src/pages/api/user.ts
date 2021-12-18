@@ -56,7 +56,7 @@ export default async (
     let invalidHour = false
     for(const dayOfTheWeek in available_hours) {
       available_hours[dayOfTheWeek].forEach((hour) => {
-        if (hour < 7 || hour > 20) {
+        if (hour < 7 && hour > 20 && hour !== "") {
           invalidHour = true
           return
         }
